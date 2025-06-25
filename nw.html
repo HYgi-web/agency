@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L.S. Auto Sales & Services - Premium Motorcycles & Expert Service</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-red: #d9241c;
+            --accent-orange: #ff6b35;
+            --dark-bg: #1a1a1a;
+            --light-bg: #f8f9fa;
+            --text-dark: #333;
+            --text-light: #666;
+            --white: #ffffff;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(20, 20, 20, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #d9241c;
+            text-decoration: none;
+        }
+        
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 5px;
+        }
+        
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+        
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+        
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .nav-menu a:hover {
+            color: #ff6b35;
+        }
+        
+        /* Banner Section */
+        .banner {
+            margin-top: 85px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .banner img {
+            
+            width: 100%;
+            height: auto;
+            display: block;
+            max-height: 650px;
+            object-fit: cover;
+        }
+
+        /* Services Section */
+        .services {
+            padding: 120px 2rem;
+            background: linear-gradient(135deg, var(--light-bg) 0%, #e9ecef 50%, var(--light-bg) 100%);
+            position: relative;
+        }
+        
+        .services::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,107,53,0.05)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            pointer-events: none;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 4rem;
+            color: var(--primary-red);
+            position: relative;
+            font-weight: 900;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(45deg, var(--accent-orange), #f7931e);
+            margin: 30px auto;
+            border-radius: 2px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scaleX(1); }
+            50% { transform: scaleX(1.2); }
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+        
+        .service-card {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 107, 53, 0.1);
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(45deg, var(--accent-orange), #f7931e);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .service-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+        
+        .service-image {
+            height: 200px;
+            background: linear-gradient(135deg, #f1f3f4 0%, #e8eaed 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .service-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+        
+        .service-card:hover .service-image img {
+            transform: scale(1.1);
+        }
+        
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .service-card:hover .service-icon {
+            transform: scale(1.2) rotate(10deg);
+        }
+        
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-red);
+            font-weight: 700;
+        }
+        
+        .service-card p {
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+        
+        /* Customers Section */
+        .customers {
+            padding: 120px 2rem;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 50%, #2c3e50 100%);
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .customers::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 70% 20%, rgba(255, 107, 53, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 20% 80%, rgba(217, 36, 28, 0.1) 0%, transparent 50%);
+        }
+        
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+        
+        .testimonial-card {
+            background: var(--glass-bg);
+            padding: 2.5rem;
+            border-radius: 20px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .testimonial-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            transform: scale(0);
+            transition: transform 0.6s ease;
+        }
+        
+        .testimonial-card:hover::before {
+            transform: scale(1);
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .customer-image {
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .testimonial-card:hover .customer-image {
+            border-color: rgba(255, 107, 53, 0.5);
+        }
+        
+        .customer-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .customer-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--accent-orange), #f7931e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-right: 1rem;
+            color: var(--white);
+            transition: transform 0.3s ease;
+        }
+        
+        .testimonial-card:hover .customer-avatar {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        .customer-details h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.2rem;
+            color: var(--accent-orange);
+            font-weight: 700;
+        }
+        
+        .customer-details span {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+        
+        .rating {
+            color: #ffd700;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            animation: sparkle 2s ease-in-out infinite;
+        }
+        
+        @keyframes sparkle {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            line-height: 1.8;
+            opacity: 0.9;
+            position: relative;
+        }
+        
+        .testimonial-text::before {
+            content: '"';
+            font-size: 4rem;
+            color: var(--accent-orange);
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            opacity: 0.3;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 50px 2rem 20px;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-section h3 {
+            color: #ff6b35;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-section p, .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            line-height: 1.8;
+        }
+        
+        .footer-section a:hover {
+            color: #ff6b35;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid #333;
+            padding-top: 20px;
+            opacity: 0.8;
+        }
+        
+        /* Mobile Responsive Styles */
+        @media screen and (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 100%;
+                height: 100vh;
+                background: rgba(20, 20, 20, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 3rem;
+                transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                font-size: 1.2rem;
+            }
+            
+            .nav-menu.active {
+                right: 0;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .service-card {
+                padding: 2rem;
+            }
+            
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .testimonial-card {
+                padding: 2rem;
+            }
+            
+            .navbar {
+                padding: 1rem;
+            }
+            
+            .services, .customers {
+                padding: 80px 1rem;
+            }
+        }
+        
+        @media screen and (max-width: 480px) {
+            .service-card,
+            .testimonial-card {
+                padding: 1.5rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .services, .customers {
+                padding: 60px 1rem;
+            }
+        }
+        
+        /* Float animation for service icons */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        /* Slide-in animation for scroll effects */
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">L.S. AUTO</a>
+            <button class="menu-toggle" id="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#customers">Customers</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Banner Section -->
+    <section class="banner">
+        <img src="images/bannernew.png" alt="L.S. Auto Sales & Services Banner">
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <h2 class="section-title">Our Services</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-image">
+                        [Service Image Placeholder - Add motorcycle sales image here]
+                    </div>
+                    <div class="service-icon">🏍️</div>
+                    <h3>Motorcycle Sales</h3>
+                    <p>Discover our extensive collection of premium motorcycles from top brands. From sport bikes to cruisers, we have the perfect ride for every enthusiast with competitive pricing and financing options.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-image">
+                        [Service Image Placeholder - Add repair service image here]
+                    </div>
+                    <div class="service-icon">🔧</div>
+                    <h3>Expert Repairs</h3>
+                    <p>Our certified technicians provide comprehensive repair services for all motorcycle makes and models. From routine maintenance to complex engine rebuilds, we ensure your bike runs at peak performance.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-image">
+                        <img src="images/maintenance.jpeg" alt="Maintenance Service">
+                    </div>
+                    <div class="service-icon">⚙️</div>
+                    <h3>Maintenance Services</h3>
+                    <p>Regular maintenance is key to motorcycle longevity. We offer oil changes, brake services, tire replacements, and complete tune-ups to keep your motorcycle in optimal condition.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-image">
+                        [Service Image Placeholder - Add parts & accessories image here]
+                    </div>
+                    <div class="service-icon">🛡️</div>
+                    <h3>Parts & Accessories</h3>
+                    <p>Browse our extensive inventory of genuine OEM parts and premium aftermarket accessories. From performance upgrades to safety gear, we stock everything you need for your motorcycle.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-image">
+                        [Service Image Placeholder - Add inspection service image here]
+                    </div>
+                    <div class="service-icon">📋</div>
+                    <h3>Inspection Services</h3>
+                    <p>Professional motorcycle inspections for safety compliance and pre-purchase evaluations. Our thorough assessments ensure your bike meets all safety standards and regulations.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-image">
+                        <img src="images/washing.jpeg" alt="Vehicle Washing Service">
+                    </div>
+                    <div class="service-icon">🚿</div>
+                    <h3>Vehicle Washing</h3>
+                    <p>A convenient and professional vehicle washing service offering thorough exterior and interior cleaning for cars, bikes, and commercial vehicles.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Customers Section -->
+    <section id="customers" class="customers">
+        <div class="container">
+            <h2 class="section-title" style="color: white;">Our Satisfied Customers</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="customer-image">
+                        [Customer Image Placeholder - Add customer photo here]
+                    </div>
+                    <div class="customer-info">
+                        <div class="customer-avatar">R</div>
+                        <div class="customer-details">
+                            <h4>Ramesh</h4>
+                            <span>Teacher</span>
+                        </div>
+                    </div>
+                    <div class="rating">★★★★★</div>
+                    <p class="testimonial-text">L.S. Auto Sales provided exceptional service when I purchased my Harley Davidson. Their team was knowledgeable, professional, and went above and beyond to ensure I got the perfect bike. Highly recommended!</p>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="customer-image">
+                        [Customer Image Placeholder - Add customer photo here]
+                    </div>
+                    <div class="customer-info">
+                        <div class="customer-avatar">S</div>
+                        <div class="customer-details">
+                            <h4>Suresh</h4>
+                            <span>Farmer</span>
+                        </div>
+                    </div>
+                    <div class="rating">★★★★★</div>
+                    <p class="testimonial-text">I've been bringing my motorcycle here for maintenance for over 3 years. The technicians are skilled, honest, and always explain what needs to be done. Fair pricing and excellent customer service every time.</p>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="customer-image">
+                        [Customer Image Placeholder - Add customer photo here]
+                    </div>
+                    <div class="customer-info">
+                        <div class="customer-avatar">A</div>
+                        <div class="customer-details">
+                            <h4>Anita</h4>
+                            <span>Teacher</span>
+                        </div>
+                    </div>
+                    <div class="rating">★★★★★</div>
+                    <p class="testimonial-text">When my bike broke down on the highway, L.S. Auto's pickup service was a lifesaver. They had me back on the road quickly with quality repairs. Their customer care is outstanding!</p>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="customer-image">
+                        [Customer Image Placeholder - Add customer photo here]
+                    </div>
+                    <div class="customer-info">
+                        <div class="customer-avatar">A</div>
+                        <div class="customer-details">
+                            <h4>Arnav</h4>
+                            <span>New Rider</span>
+                        </div>
+                    </div>
+                    <div class="rating">★★★★★</div>
+                    <p class="testimonial-text">As a first-time motorcycle buyer, I was nervous about making the right choice. The team at L.S. Auto took time to understand my needs and helped me find the perfect starter bike. Great experience!</p>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="customer-image">
+                        [Customer Image Placeholder - Add customer photo here]
+                    </div>
+                    <div class="customer-info">
+                        <div class="customer-avatar">P</div>
+                        <div class="customer-details">
+                            <h4>Paras</h4>
+                            <span>Engineer</span>
+                        </div>
+                    </div>
+                    <div class="rating">★★★★★</div>
+                    <p class="testimonial-text">L.S. Auto understands performance motorcycles. They've helped me modify my sport bike for track days with quality parts and expert installation. They're my go-to shop for all things motorcycle!</p>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="customer-image">
+                        [Customer Image Placeholder - Add customer photo here]
+                    </div>
+                    <div class="customer-info">
+                        <div class="customer-avatar">R</div>
+                        <div class="customer-details">
+                            <h4>Rachit</h4>
+                            <span>Touring Rider</span>
+                        </div>
+                    </div>
+                    <div class="rating">★★★★★</div>
+                    <p class="testimonial-text">Before my cross-country motorcycle trip, L.S. Auto performed a complete inspection and service. Their thorough work gave me confidence for the 5,000-mile journey. Truly professional service!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>📍 Sirsaganj to Mainpuri Road (Near Pithepur Tirah)<br>Chandpura Dist. Firozabad Pin-205261</p>
+                <p>📞 9897689291, 9927839291</p>
+                <p>✉️ lsautosalesandservice1989@gmail.com</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Business Hours</h3>
+                <p>Monday - Friday: 9:00 AM - 7:00 PM</p>
+                <p>Saturday: Closed</p>
+                <p>Sunday: 9:00 AM - 7:00 PM</p>
+                <p>Emergency Service Available</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <p><a href="#">Facebook</a></p>
+                <p><a href="#">Instagram</a></p>
+                <p><a href="#">YouTube</a></p>
+                <p><a href="#">Twitter</a></p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 L.S. Auto Sales & Services. All rights reserved. | Serving motorcycle enthusiasts with excellence since 2010.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const navMenu = document.getElementById('nav-menu');
+        
+        menuToggle.addEventListener('click', function() {
+            this.classList.toggle('active');
+            navMenu.classList.toggle('active');
+            document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : 'auto';
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', function() {
+                menuToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Navbar background change on scroll
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.background = 'rgba(20, 20, 20, 0.98)';
+            } else {
+                navbar.style.background = 'rgba(20, 20, 20, 0.95)';
+            }
+        });
+
+        // Add scroll progress indicator
+        const progressBar = document.createElement('div');
+        progressBar.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            z-index: 9999;
+            transition: width 0.3s ease;
+        `;
+        document.body.appendChild(progressBar);
+
+        window.addEventListener('scroll', function() {
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (scrollTop / scrollHeight) * 100;
+            progressBar.style.width = scrolled + '%';
+        });
+
+        // Enhanced service card interactions
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-15px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Add floating animation to service icons
+        document.querySelectorAll('.service-icon').forEach((icon, index) => {
+            icon.style.animationDelay = `${index * 0.2}s`;
+            icon.style.animation = 'float 3s ease-in-out infinite';
+        });
+
+        // Add dynamic background colors to testimonial avatars
+        const avatars = document.querySelectorAll('.customer-avatar');
+        const colors = [
+            'linear-gradient(45deg, #ff6b35, #f7931e)',
+            'linear-gradient(45deg, #667eea, #764ba2)',
+            'linear-gradient(45deg, #f093fb, #f5576c)',
+            'linear-gradient(45deg, #4facfe, #00f2fe)',
+            'linear-gradient(45deg, #43e97b, #38f9d7)',
+            'linear-gradient(45deg, #fa709a, #fee140)'
+        ];
+
+        avatars.forEach((avatar, index) => {
+            avatar.style.background = colors[index % colors.length];
+        });
+
+        // Add scroll progress indicator
+        const progressBar = document.createElement('div');
+        progressBar.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            z-index: 9999;
+            transition: width 0.3s ease;
+        `;
+        document.body.appendChild(progressBar);
+
+        window.addEventListener('scroll', function() {
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (scrollTop / scrollHeight) * 100;
+            progressBar.style.width = scrolled + '%';
+        });
+
+       // Smooth scrolling for navigation links
+       document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+           anchor.addEventListener('click', function (e) {
+               e.preventDefault();
+               const target = document.querySelector(this.getAttribute('href'));
+               if (target) {
+                   target.scrollIntoView({
+                       behavior: 'smooth',
+                       block: 'start'
+                   });
+               }
+           });
+       });
+
+       // Navbar background change on scroll
+       window.addEventListener('scroll', function() {
+           const navbar = document.querySelector('.navbar');
+           if (window.scrollY > 100) {
+               navbar.style.background = 'rgba(20, 20, 20, 0.98)';
+           } else {
+               navbar.style.background = 'rgba(20, 20, 20, 0.95)';
+           }
+       });
+
+       // Add animation to service cards on scroll
+       const observerOptions = {
+           threshold: 0.1,
+           rootMargin: '0px 0px -50px 0px'
+       };
+
+       const observer = new IntersectionObserver(function(entries) {
+           entries.forEach(entry => {
+               if (entry.isIntersecting) {
+                   entry.target.style.animation = 'slideInUp 0.6s ease forwards';
+               }
+           });
+       }, observerOptions);
+
+       document.querySelectorAll('.service-card, .testimonial-card').forEach(card => {
+           observer.observe(card);
+       });
+
+       // Add CSS for slide animation
+       const style = document.createElement('style');
+       style.textContent = `
+           @keyframes slideInUp {
+               from {
+                   opacity: 0;
+                   transform: translateY(30px);
+               }
+               to {
+                   opacity: 1;
+                   transform: translateY(0);
+               }
+           }
+       `;
+       document.head.appendChild(style);
+   </script>
+</body>
+</html>
